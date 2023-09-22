@@ -22,7 +22,7 @@ const Choose = () => {
   }, []);
 
   useMemo(() => movies.map((movie) => {
-    setActors((actors) => [...actors, movie.Actors])
+    setActors((actors) => [...actors, movie.Actors].flatMap((actor) => actor.split(', ')));
   }), [movies])
 
   console.log(actors)
@@ -31,15 +31,25 @@ const Choose = () => {
     <section class="flex mx-10">
       {movies.map((movie, index) => (
         <div key={index} class="flex-row mx-4">
-          {movie.Title}
-          <picture>
-            <img src={movie.Poster} alt={`movie poster for ${movie.Title}`} />
-          </picture>
-          {movie.Actors}
+          <div class="flex-col">
+            <p>
+              {movie.Title}
+            </p>
+            <picture>
+              <img src={movie.Poster} alt={`movie poster for ${movie.Title}`} />
+            </picture>
+            <p>
+              {movie.Actors}
+            </p>
+          </div>
         </div>
       ))}
       <div>
-        {actors}
+        {actors.map((actor) => (
+          <>
+            {actor},&nbsp;
+          </>
+        ))}
       </div>
     </section>
   )
