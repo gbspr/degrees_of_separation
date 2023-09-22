@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { getMovieData, omdbIds } from '../utils/games';
 
 const Choose = () => {
   const [movies, setMovies] = useState([]);
+  const [actors, setActors] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,6 +21,12 @@ const Choose = () => {
     fetchData();
   }, []);
 
+  useMemo(() => movies.map((movie) => {
+    setActors((actors) => [...actors, movie.Actors])
+  }), [movies])
+
+  console.log(actors)
+
   return (
     <section class="flex mx-10">
       {movies.map((movie, index) => (
@@ -28,8 +35,12 @@ const Choose = () => {
           <picture>
             <img src={movie.Poster} alt={`movie poster for ${movie.Title}`} />
           </picture>
+          {movie.Actors}
         </div>
       ))}
+      <div>
+        {actors}
+      </div>
     </section>
   )
 };
