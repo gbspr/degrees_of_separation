@@ -6,9 +6,7 @@ export default function Home() {
       <h1 className='mb-4'>
         degrees of separation
       </h1>
-      <h2>
-        <Link href="/start"> Start game! </Link>
-      </h2>
+      <h2> <Link href="/game"> Start game! </Link> </h2>
     </main>
   )
 }
