@@ -8,14 +8,21 @@ export const omdbIds = [
 export const randomIndex = Math.floor(Math.random() * omdbIds.length);
 
 export async function getAllMovieData() {
-  const movieData = await Promise.all([
-    omdbId.map(omdbId => (
-      fetch(`https://www.omdbapi.com/?i=${omdbId}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`)
-      .then(res => res.json)
-      .catch(error => console.error(error.message))
-    ))
+  const [gameOne, gameTwo, gameThree, gameFour] = await Promise.all([
+    fetch(`https://www.omdbapi.com/?i=${omdbIds[0]}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`),
+    fetch(`https://www.omdbapi.com/?i=${omdbIds[1]}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`),
+    fetch(`https://www.omdbapi.com/?i=${omdbIds[2]}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`),
+    fetch(`https://www.omdbapi.com/?i=${omdbIds[3]}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`)
   ])
-  return movieData;
+
+  const [castAway, forrestGump, iAmLegend, independenceDay] = await Promise.all([
+    gameOne.json(),
+    gameTwo.json(),
+    gameThree.json(),
+    gameFour.json(),
+  ])
+
+  return { castAway, forrestGump, iAmLegend, independenceDay }
 }
 
 export function shuffleArray(array) {

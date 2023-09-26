@@ -3,10 +3,12 @@ import Link from 'next/link'
 export default function Home() {
   return (
     <main>
-      <h1 className='mb-4'>
+      <h2>
         degrees of separation
-      </h1>
-      <h2> <Link href="/game"> Start game! </Link> </h2>
+      </h2>
+      <Link href="/game">
+        Start game!
+      </Link>
     </main>
   )
 }

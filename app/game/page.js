@@ -30,7 +30,7 @@ const Game = async () => {
   const outcomeHref = (movieTitle) => movieTitle === answer ? { pathname: '/game/win' } : { pathname: '/game/lose' };
 
   return (
-    <section className="flex flex-col mx-10">
+    <section className="flex flex-col">
       <div className="flex flex-col">
         <h2 className='mb-2'> {chosenMovie.Title} </h2>
         <picture>
