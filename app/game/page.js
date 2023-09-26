@@ -1,4 +1,5 @@
 import { getAllMovieData, randomIndex } from '../utils/games';
+import Link from 'next/link'
 
 const Game = async () => {
   const movies = await getAllMovieData();
@@ -19,36 +20,29 @@ const Game = async () => {
   const findMatchingArray = () => {
     return remainingArrayActors.findIndex(movie =>
       movie.some(item =>
-          chosenMovieActors.includes(item)
+        chosenMovieActors.includes(item)
       )
     );
   }
 
   const answer = remainingArray[findMatchingArray()].Title;
 
-  console.log(remainingArrayActors)
-
   return (
-    <section className="flex mx-10">
-      <div className="flex-row mx-4">
-        <div className="flex-col">
-          <h2> {chosenMovie.Title} </h2>
-          <picture>
-            <img src={chosenMovie.Poster} alt={`movie poster for ${chosenMovie.Title}`} />
-          </picture>
-          <div className="flex flex-row">
-            {chosenMovie.Actors.map((actor) => (
-              <div key={actor}>
-                {`${actor}, `}
-              </div>
-            ))}
-          </div>
-        </div>
+    <section className="flex flex-col mx-10">
+      <div className="flex flex-col">
+        <h2 className='mb-2'> {chosenMovie.Title} </h2>
+        <picture>
+          <img src={chosenMovie.Poster} alt={`movie poster for ${chosenMovie.Title}`} />
+        </picture>
       </div>
-      <div>
+      <div className='flex flex-col'>
         {remainingArray.map((movie) => (
-          <div key={movie.Title} className={movie.Title === answer ? 'bg-green-500' : 'bg-red-500' }>
-            {movie.Title}
+          <div key={movie.Title} className='my-2'>
+            <Link
+              href={movie.Title === answer ? { pathname: '/game/win' } : { pathname: '/game/lose' }}
+            >
+              {movie.Title}
+            </Link>
           </div>
         ))}
       </div>

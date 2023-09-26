@@ -1,6 +1,9 @@
+import Link from "next/link";
+
 const Win = () => (
   <div>
-    congrats you won!
+    <h2> congrats, you won! </h2>
+    <Link href="/"> Restart game </Link>
   </div>
 )
 
