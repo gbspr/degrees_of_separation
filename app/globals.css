@@ -4,11 +4,15 @@
 
 
 @layer components {
-  .h1 {
+  body {
+    @apply bg-zinc-400 min-h-screen m-10
+  }
+
+  h1 {
     @apply text-5xl
   }
 
-  .h2 {
+  h2 {
     @apply text-3xl
   }
 }

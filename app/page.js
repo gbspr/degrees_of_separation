@@ -1,12 +1,14 @@
-import Start from './start/page'
+import Link from 'next/link'
 
 export default function Home() {
   return (
-    <main className='bg-zinc-400 min-h-screen'>
-      <h1 className='h1 mb-4'>
+    <main>
+      <h1 className='mb-4'>
         degrees of separation
       </h1>
-      <Start />
+      <h2>
+        <Link href="/start"> Start game! </Link>
+      </h2>
     </main>
   )
 }

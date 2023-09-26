@@ -1,56 +1,39 @@
-'use client'
+import { getAllMovieData, randomIndex } from '../utils/games';
 
-import { useEffect, useState, useMemo } from 'react';
-import { getMovieData, omdbIds } from '../utils/games';
+const Choose = async () => {
+  const movies = await getAllMovieData();
 
-const Choose = () => {
-  const [movies, setMovies] = useState([]);
-  const [actors, setActors] = useState([]);
+  const movieData = Object.values(movies).map((movie) => ({
+    ...movie,
+    Actors: movie.Actors.split(', '),
+  }));
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const promises = omdbIds.map(async (omdbId) => {
-        return getMovieData(omdbId);
-      });
+  const chosenMovie = movieData[randomIndex];
 
-      const movies = await Promise.all(promises);
-
-      setMovies(movies);
-    };
-
-    fetchData();
-  }, []);
-
-  useMemo(() => movies.map((movie) => {
-    setActors((actors) => [...actors, movie.Actors].flatMap((actor) => actor.split(', ')));
-  }), [movies])
-
-  console.log(actors)
+  const remainingArray = [...movieData.slice(0, randomIndex), ...movieData.slice(randomIndex + 1)];
 
   return (
-    <section class="flex mx-10">
-      {movies.map((movie, index) => (
-        <div key={index} class="flex-row mx-4">
-          <div class="flex-col">
-            <p>
-              {movie.Title}
-            </p>
-            <picture>
-              <img src={movie.Poster} alt={`movie poster for ${movie.Title}`} />
-            </picture>
-            <p>
-              {movie.Actors}
-            </p>
+    <section className="flex mx-10">
+      <div className="flex-row mx-4">
+        <div className="flex-col">
+          <h2> {chosenMovie.Title} </h2>
+          <picture>
+            <img src={chosenMovie.Poster} alt={`movie poster for ${chosenMovie.Title}`} />
+          </picture>
+          <div className="flex flex-row">
+            {chosenMovie.Actors.map((actor) => (
+              <div key={actor}>
+                {`${actor}, `}
+              </div>
+            ))}
           </div>
         </div>
-      ))}
-      <div>
-        {actors.map((actor) => (
-          <>
-            {actor},&nbsp;
-          </>
-        ))}
       </div>
+      {remainingArray.map((movie) => (
+        <p key={movie.Title}>
+          {`${movie.Title}, `}
+        </p>
+      ))}
     </section>
   )
 };

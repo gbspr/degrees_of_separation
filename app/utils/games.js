@@ -5,11 +5,22 @@ export const omdbIds = [
   'tt0116629', // Independence Day
 ]
 
-const randomIndex = Math.floor(Math.random() * omdbIds.length);
-export const randomMovie = omdbIds[randomIndex];
+export const randomIndex = Math.floor(Math.random() * omdbIds.length);
 
-export const getMovieData = async (omdbId) => {
-  const response = await fetch(`https://www.omdbapi.com/?i=${omdbId}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`);
-  const data = await response.json();
-  return data;
+export async function getAllMovieData() {
+  const [gameOne, gameTwo, gameThree, gameFour] = await Promise.all([
+    fetch(`https://www.omdbapi.com/?i=${omdbIds[0]}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`),
+    fetch(`https://www.omdbapi.com/?i=${omdbIds[1]}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`),
+    fetch(`https://www.omdbapi.com/?i=${omdbIds[2]}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`),
+    fetch(`https://www.omdbapi.com/?i=${omdbIds[3]}&apikey=${process.env.NEXT_PUBLIC_OMDB_API_KEY}`)
+  ])
+
+  const [castAway, forrestGump, iAmLegend, independenceDay] = await Promise.all([
+    gameOne.json(),
+    gameTwo.json(),
+    gameThree.json(),
+    gameFour.json(),
+  ])
+
+  return { castAway, forrestGump, iAmLegend, independenceDay }
 }
