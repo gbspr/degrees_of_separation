@@ -1,3 +1,4 @@
+const movier = require('movier');
 export const omdbIds = [
   'tt0162222', // Cast Away
   'tt0109830', // Forrest Gump 
@@ -23,6 +24,21 @@ export async function getAllMovieData() {
   ])
 
   return { castAway, forrestGump, iAmLegend, independenceDay }
+}
+
+export async function getActorFilmTitles(actor) {
+  await movier.getPersonDetailsByName(actor).then((res) => {
+    const totalMovies = [];
+    res.filmography.map((film) => {
+      if (film.category === 'actor' && film.type === 'movie') {
+        totalMovies.push({
+          name: film.name,
+          id: film.source.sourceId,
+        })
+      }
+    })
+    return totalMovies;
+  });
 }
 
 export function shuffleArray(array) {
