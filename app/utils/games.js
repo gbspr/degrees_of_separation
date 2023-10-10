@@ -1,7 +1,4 @@
 // returns the first common movie between two actors filmographies that was returned by the API
-
-import { lowerCase } from "lodash";
-
 // TODO: exclude all sequels
 export const findCommonalities = (firstFilmography, secondFilmography) => {
   const commonFilms = [];
@@ -15,10 +12,6 @@ export const findCommonalities = (firstFilmography, secondFilmography) => {
   })
   return commonFilms[0];
 }
-
-export const standardizeInput = (input) => (
-  lowerCase(input).replace(/(?<=\w)-(?=\w)/g, '')
-)
 
 export function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
