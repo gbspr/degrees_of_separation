@@ -1,9 +1,11 @@
 const movier = require('movier');
 
+// returns the cast of a movie
 export const getFilmDataAndActors = async (imdbId) => await movier.getTitleDetailsByIMDBId(imdbId).then((res) => {
   return (res.casts)
 })
 
+// returns the complete filmography of a given actor
 export const getActorsFilmTitlesAndFilmIds = async (actor) => await movier.getPersonDetailsByName(actor).then((res) => {
   const totalMovies = [];
   res.filmography.map((film) => {

@@ -6,8 +6,8 @@ const Game001 = () => {
   return (
     <Suspense fallback={<Loading />}>
       <CommonFilm
-        primary="brad pitt"
-        secondary="bj novak"
+        primary="Brad Pitt"
+        secondary="BJ Novak"
       />
     </Suspense>
   )
