@@ -7,7 +7,7 @@ export const findCommonalities = (firstFilmography, secondFilmography) => {
       }
     })
   })
-  return commonFilms;
+  return commonFilms[0];
 }
 
 export function shuffleArray(array) {
