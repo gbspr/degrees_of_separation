@@ -1,10 +1,13 @@
+import { getPoster } from "@/app/utils/service";
 const { default: Image } = require("next/image")
 
-const Poster = ({ src, alt }) => {
+const Poster = async ({ imdbId, alt }) => {
+  const posterSrc = await getPoster(imdbId);
+
   return (
     <div>
       <Image
-        src={src}
+        src={posterSrc}
         height={500}
         width={500}
         alt={alt}

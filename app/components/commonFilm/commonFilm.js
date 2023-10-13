@@ -1,17 +1,15 @@
 import { findCommonalities } from '@/app/utils/games';
 import {
   getActorsFilmTitlesAndFilmIds,
-  getFirstActorInCastByFilmId,
-  firstActorInCastExcludingUsedActors,
 } from '@/app/utils/service';
+import { isUndefined } from 'lodash';
 import Poster from '../poster/poster';
-const movier = require('movier');
+import Connection from '../connection/connection';
 
-const CommonFilm = async ({ primary, secondary }) => {
-  const commonFilm = findCommonalities(await getActorsFilmTitlesAndFilmIds(primary), await getActorsFilmTitlesAndFilmIds(secondary));
-  const connectedActorOfTheCommonFilmExcludingAlreadyIncludedActors = firstActorInCastExcludingUsedActors(await getFirstActorInCastByFilmId(commonFilm.id), primary, secondary);
-  const findConnection = await getActorsFilmTitlesAndFilmIds(connectedActorOfTheCommonFilmExcludingAlreadyIncludedActors);
-  const commonFilmPoster = await movier.getTitleDetailsByIMDBId(commonFilm.id).then(res => res.allImages[0].url);
+const CommonFilm = async ({ primary, secondary, usedActors }) => {
+  const primaryFilmography = await getActorsFilmTitlesAndFilmIds(primary);
+  const secondaryFilmography = await getActorsFilmTitlesAndFilmIds(secondary);
+  const commonFilm = findCommonalities(primaryFilmography, secondaryFilmography);
 
   return (
     <div>
@@ -21,21 +19,8 @@ const CommonFilm = async ({ primary, secondary }) => {
           {commonFilm.name}
         </u>
       </p>
-      <Poster src={commonFilmPoster} alt="common poster" />
-      <div>
-        <p className='mb-2'>
-          {`${connectedActorOfTheCommonFilmExcludingAlreadyIncludedActors} was also in `}
-          <u>
-            {commonFilm.name}
-          </u>
-          . Here are their other films:
-        </p>
-        {findConnection.map((film) => (
-          <div key={film.id}>
-            {film.name}
-          </div>
-        ))}
-      </div>
+      <Poster imdbId={commonFilm.id} alt="common poster" />
+      <Connection imdbId={commonFilm.id} includedActors={[primary, secondary]} />
     </div>
   )
 }
